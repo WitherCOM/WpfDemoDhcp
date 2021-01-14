@@ -1,0 +1,22 @@
+﻿<Window x:Class="DhcpProba.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DhcpProba"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="False">
+        <Menu x:Name="menu" DockPanel.Dock="Top" Height="20">
+            <MenuItem Header="Kliens üzenete"/>
+            <MenuItem Header="Foglalás hozzáadása"/>
+            <MenuItem Header="Foglalások törlése"/>
+            <MenuItem Header="Beállítások"/>
+            <MenuItem Header="Mentés"/>
+            <MenuItem Header="Visszaállítása"/>
+        </Menu>
+        <ListBox x:Name="listBox" Width="221"/>
+        <ListBox x:Name="listBox1" Width="192" DockPanel.Dock="Right"/>
+    </DockPanel>
+
+</Window>
