@@ -7,7 +7,7 @@ namespace DhcpProba.Model
 {
     class Dhcp
     {
-        class listElement
+        public class listElement
         {
             private string _mac;
             private string _ip;
@@ -56,6 +56,23 @@ namespace DhcpProba.Model
         private List<listElement> _reservations;
 
         private List<listElement> _leases;
+
+        public List<listElement> ReservationList
+        {
+            get
+            {
+                return _reservations;
+            }
+        }
+
+        public List<listElement> LeasesList
+        {
+            get
+            {
+                return _leases;
+            }
+        }
+
         public Dhcp()
         {
 

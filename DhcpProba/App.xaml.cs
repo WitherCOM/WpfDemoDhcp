@@ -13,9 +13,8 @@ namespace DhcpProba
     /// </summary>
     public partial class App : Application
     {
-        View.KliensUzenet _popupklient;
 
-
+        ViewModel.DhcpViewModel dhcpviewmodel;
         public App()
         {
             Startup += App_Startup;
@@ -24,22 +23,29 @@ namespace DhcpProba
         private void App_Startup(object sender, StartupEventArgs e)
         {
             MainWindow mainwindow = new MainWindow();
-            View.KliensUzenet _popupklient = new View.KliensUzenet();
+            
             Model.Dhcp dhcpmodel = new Model.Dhcp();
-            ViewModel.DhcpViewModel dhcpviewmodel = new ViewModel.DhcpViewModel();
-            ViewModel.PopupViewModel popupviewmodel = new ViewModel.PopupViewModel();
-            _popupklient.DataContext = popupviewmodel;
+            dhcpviewmodel = new ViewModel.DhcpViewModel();
+            
+            
             mainwindow.DataContext = dhcpviewmodel;
 
             dhcpviewmodel.OnPopUpOpen += Dhcpviewmodel_OnPopUpOpen;
-            popupviewmodel.OnClientNameAdded += dhcpviewmodel.OnClientNameAdded;
+
+            
+
 
             mainwindow.Show();
         }
 
         private void Dhcpviewmodel_OnPopUpOpen(object sender, ViewModel.ClientPopupEventArg e)
         {
-            _popupklient.Show();
+            View.KliensUzenet popupklient = new View.KliensUzenet();
+            ViewModel.PopupViewModel popupviewmodel = new ViewModel.PopupViewModel();
+            popupklient.DataContext = popupviewmodel;
+            popupviewmodel.OnClientNameAdded += dhcpviewmodel.OnClientNameAdded;
+            popupviewmodel.OnCloseWindow += popupklient.KliensUzenet_OnCloseWindow;
+            popupklient.Show();
         }
     }
 }

@@ -21,5 +21,10 @@ namespace DhcpProba.View
         {
             InitializeComponent();
         }
+
+        public void KliensUzenet_OnCloseWindow(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
