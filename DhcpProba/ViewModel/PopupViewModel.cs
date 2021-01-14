@@ -8,6 +8,9 @@ namespace DhcpProba.ViewModel
     {
         public event EventHandler<ClientPopupEventArg> OnClientNameAdded;
 
+        public DelegateCommand Confirm { get; private set; }
+
+        public DelegateCommand Cancel{ get; private set; }
         public PopupViewModel()
         {
 
