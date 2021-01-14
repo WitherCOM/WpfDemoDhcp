@@ -15,8 +15,8 @@
             <MenuItem Header="Mentés"/>
             <MenuItem Header="Visszaállítása"/>
         </Menu>
-        <ListBox x:Name="listBox" Width="221"/>
-        <ListBox x:Name="listBox1" Width="192" DockPanel.Dock="Right"/>
+        <ListBox ItemsSource="{Binding LeasesList}" Name="listBox" Width="221"/>
+        <ListBox ItemsSource="{Binding ReservationList}" x:Name="listBox1" Width="192" DockPanel.Dock="Right"/>
     </DockPanel>
 
 </Window>
