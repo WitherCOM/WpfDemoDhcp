@@ -32,11 +32,22 @@ namespace DhcpProba
             mainwindow.DataContext = dhcpviewmodel;
 
             dhcpviewmodel.OnPopUpOpen += Dhcpviewmodel_OnPopUpOpen;
+            dhcpviewmodel.OnBeallitasokOpen += Dhcpviewmodel_OnBeallitasokOpen;
 
             
 
 
             mainwindow.Show();
+        }
+
+        private void Dhcpviewmodel_OnBeallitasokOpen(object sender, ViewModel.ClientPopupEventArg e)
+        {
+            View.BeallitasokPopup beallitasok = new View.BeallitasokPopup();
+            ViewModel.BeallitasokViewModel beallviewmodel = new ViewModel.BeallitasokViewModel();
+            beallitasok.DataContext = beallviewmodel;
+            beallviewmodel.OnChangeBerletIdo += dhcpviewmodel.OnBerletIdoChanged;
+            beallviewmodel.OnCloseWindow += beallitasok.KliensUzenet_OnCloseWindow;
+            beallitasok.Show();
         }
 
         private void Dhcpviewmodel_OnPopUpOpen(object sender, ViewModel.ClientPopupEventArg e)

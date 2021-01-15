@@ -198,6 +198,11 @@ namespace DhcpProba.Model
             RaiseOnListUpdated();
         }
 
+        public void ChangeBerletido(string ido)
+        {
+            berletiido = Int32.Parse(ido);
+        }
+
         public void RemoveLeasesElement()
         {
             int now = DateTime.Now.Second + DateTime.Now.Minute * 60 + DateTime.Now.Hour * 3600;

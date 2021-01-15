@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="KliensUzenet" Height="200" Width="300">
     <DockPanel>
-        <Button x:Name="button" Content="Request" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Command="{Binding Confirm}" />
+        <Button x:Name="button" Content="Kérés" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Command="{Binding Confirm}" />
         <Label x:Name="label" Content="MAC: " VerticalAlignment="Center"/>
         <TextBox x:Name="textBox" Text="{Binding EditText}" TextWrapping="Wrap" Height="15" DockPanel.Dock="Left" Width="167"/>
-        <Button x:Name="button1" Content="Cancel" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Command="{Binding Cancel}" DockPanel.Dock="Right" />
+        <Button x:Name="button1" Content="Mégse" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Command="{Binding Cancel}" DockPanel.Dock="Right" />
         
     </DockPanel>
 

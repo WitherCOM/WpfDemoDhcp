@@ -13,7 +13,7 @@ namespace DhcpProba.ViewModel
     {
         #region Events
         public event EventHandler<ClientPopupEventArg> OnPopUpOpen;
-
+        public event EventHandler<ClientPopupEventArg> OnBeallitasokOpen;
         #endregion
         private Model.Dhcp _model;
         private DispatcherTimer _timer;
@@ -109,10 +109,19 @@ namespace DhcpProba.ViewModel
         {
             OnPopUpOpen?.Invoke(this, new ClientPopupEventArg(""));
         }
+        public void RaiseOpenBeallitasokPopup()
+        {
+            OnBeallitasokOpen?.Invoke(this, new ClientPopupEventArg(""));
+        }
 
         public void OnClientNameAdded(object sender, ClientPopupEventArg arg)
         {
             _model.RequestNewIP(Int64.Parse(arg.Message, System.Globalization.NumberStyles.HexNumber));
+        }
+
+        public void OnBerletIdoChanged(object sender, ClientPopupEventArg arg)
+        {
+            _model.ChangeBerletido(arg.Message);
         }
         private void UpdateLists(object sender,EventArgs args)
         {
