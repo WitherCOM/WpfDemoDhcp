@@ -22,10 +22,11 @@ namespace DhcpProba
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
+            Model.Dhcp model = new Model.Dhcp();
             MainWindow mainwindow = new MainWindow();
             
             Model.Dhcp dhcpmodel = new Model.Dhcp();
-            dhcpviewmodel = new ViewModel.DhcpViewModel();
+            dhcpviewmodel = new ViewModel.DhcpViewModel(model);
             
             
             mainwindow.DataContext = dhcpviewmodel;

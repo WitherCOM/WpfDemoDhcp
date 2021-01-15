@@ -40,8 +40,9 @@ namespace DhcpProba.ViewModel
             }
         }
 
-        public DhcpViewModel()
+        public DhcpViewModel(Model.Dhcp model)
         {
+            _model = model;
             Kliensuzenet = new DelegateCommand((param) =>
             {
                 RaiseOpenClientNamePopup();
@@ -55,19 +56,19 @@ namespace DhcpProba.ViewModel
 
         public void OnClientNameAdded(object sender, ClientPopupEventArg arg)
         {
-
+            _model.RequestNewIP(Int64.Parse(arg.Message, System.Globalization.NumberStyles.HexNumber));
         }
         private void UpdateLists()
         {
             _leaseslist.Clear();
             _reservedlist.Clear();
-            foreach(DhcpProba.Model.Dhcp.listElement e in _model.LeasesList)
+            foreach(DhcpProba.Model.Dhcp.leaseElement e in _model.LeasesList)
             {
                 _leaseslist.Add(e.MAC + " " + e.IP + " " + e.LejaratiIdo);
             }
-            foreach (DhcpProba.Model.Dhcp.listElement e in _model.ReservationList)
+            foreach (DhcpProba.Model.Dhcp.resElement e in _model.ReservationList)
             {
-                _reservedlist.Add(e.MAC + " " + e.IP + " " + e.LejaratiIdo);
+                _reservedlist.Add(e.MAC + " " + e.IP);
             }
         }
         
