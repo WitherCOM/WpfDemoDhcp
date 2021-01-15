@@ -47,7 +47,7 @@ namespace DhcpProba
             beallitasok.DataContext = beallviewmodel;
             beallviewmodel.OnChangeBerletIdo += dhcpviewmodel.OnBerletIdoChanged;
             beallviewmodel.OnCloseWindow += beallitasok.KliensUzenet_OnCloseWindow;
-            beallitasok.Show();
+            beallitasok.ShowDialog();
         }
 
         private void Dhcpviewmodel_OnPopUpOpen(object sender, ViewModel.ClientPopupEventArg e)
@@ -57,7 +57,7 @@ namespace DhcpProba
             popupklient.DataContext = popupviewmodel;
             popupviewmodel.OnClientNameAdded += dhcpviewmodel.OnClientNameAdded;
             popupviewmodel.OnCloseWindow += popupklient.KliensUzenet_OnCloseWindow;
-            popupklient.Show();
+            popupklient.ShowDialog();
         }
     }
 }

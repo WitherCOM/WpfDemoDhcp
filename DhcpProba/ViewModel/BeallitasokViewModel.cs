@@ -37,6 +37,7 @@ namespace DhcpProba.ViewModel
             Change = new DelegateCommand((param) =>
             {
                 RaiseOnChangeBerletIdo(_berletidoedit);
+                RaiseOnCloseWindow();
             });
 
             Cancel = new DelegateCommand((param) =>
