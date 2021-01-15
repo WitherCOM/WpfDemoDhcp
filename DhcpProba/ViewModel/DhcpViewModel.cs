@@ -144,11 +144,11 @@ namespace DhcpProba.ViewModel
             ReservedList.Clear();
             foreach(DhcpProba.Model.Dhcp.leaseElement e in _model.LeasesList)
             {
-                LeasesList.Add("MAC:" +Convert.ToString(e.MAC,16) + " Ip:" + e.IP.GetString() + " Lejarat:" + e.LejaratiIdo + "s");
+                LeasesList.Add("MAC:" +Convert.ToString(e.MAC,16) + " Ip:" + e.IP.GetString() + " Lejarat:" +TimeSpan.FromSeconds(e.LejaratiIdo).ToString());
             }
             foreach (DhcpProba.Model.Dhcp.resElement e in _model.ReservationList)
             {
-                ReservedList.Add("MAC:" + e.MAC + " Ip:" + e.IP.GetString());
+                ReservedList.Add("MAC:" + Convert.ToString(e.MAC,16) + " Ip:" + e.IP.GetString());
             }
         }
         

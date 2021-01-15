@@ -159,22 +159,24 @@ namespace DhcpProba.Model
                 RaiseOnLeasesFull();
                 return;
             }
-            
+            bool isReserved = false;
             foreach(resElement e in _reservations)
             {
                 if(e.MAC == mac)
                 {
-                    bool canAdd = false;
+                    bool canAdd = true;
                     foreach(leaseElement e2 in _leases)
                     {
                         if (e2.IP.GetString() == e.IP.GetString())
-                            canAdd = true;
+                            canAdd = false;
                     }
                     if (!canAdd) break;
+                    isReserved = true;
                     _leases.Add(new leaseElement(e.MAC,e.IP, DateTime.Now.Second + DateTime.Now.Minute * 60 + DateTime.Now.Hour * 3600 + berletiido));
                     break;
                 }
             }
+            if(!isReserved)
             for(int i = 10;i <=244;++i)
             {
                 bool canAdd = true;
@@ -222,10 +224,11 @@ namespace DhcpProba.Model
                 if (l.LejaratiIdo <= now)
                 {
                     _leases.Remove(l);
+                    RaiseOnListUpdated();
                     break;
                 }
             }
-            RaiseOnListUpdated();
+            
         }
 
         public void Save()

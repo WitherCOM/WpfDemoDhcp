@@ -15,7 +15,7 @@
             <MenuItem Command ="{Binding Save}" Header="Mentés"/>
             <MenuItem Command ="{Binding Load}" Header="Visszaállítása"/>
         </Menu>
-        <ListBox SelectedValue="{Binding LeasesSelected}"  ItemsSource="{Binding LeasesList}" Name="listBox" Width="221"/>
+        <ListBox SelectedIndex="{Binding Path=LeasesSelected, Mode=TwoWay}"  ItemsSource="{Binding LeasesList}" Name="listBox" Width="221"/>
         <ListBox ItemsSource="{Binding ReservedList}" x:Name="listBox1" Width="192" DockPanel.Dock="Right"/>
     </DockPanel>
 
