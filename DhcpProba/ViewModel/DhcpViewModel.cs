@@ -63,6 +63,7 @@ namespace DhcpProba.ViewModel
         public DelegateCommand Kliensuzenet { get; private set; }
         public DelegateCommand Foglalas { get; private set; }
         public DelegateCommand FoglalasTorles { get; private set; }
+        public DelegateCommand Beallitas { get; private set; }
         #endregion
 
 
@@ -84,6 +85,10 @@ namespace DhcpProba.ViewModel
             {
                 model.ClearReservation();
 
+            });
+            Beallitas= new DelegateCommand((param) =>
+            {
+                RaiseOpenBeallitasokPopup();
             });
 
             model.OnLeasesFull += Model_OnLeasesFull;
