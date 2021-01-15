@@ -8,15 +8,15 @@
         Title="MainWindow" Height="450" Width="800">
     <DockPanel LastChildFill="False">
         <Menu x:Name="menu" DockPanel.Dock="Top" Height="20">
-            <MenuItem Header="Kliens üzenete"/>
-            <MenuItem Header="Foglalás hozzáadása"/>
-            <MenuItem Header="Foglalások törlése"/>
+            <MenuItem Command ="{Binding Kliensuzenet}" Header="Kliens üzenete"/>
+            <MenuItem Command ="{Binding Foglalas}" Header="Foglalás hozzáadása"/>
+            <MenuItem Command ="{Binding FoglalasTorles}" Header="Foglalások törlése"/>
             <MenuItem Header="Beállítások"/>
             <MenuItem Header="Mentés"/>
             <MenuItem Header="Visszaállítása"/>
         </Menu>
-        <ListBox ItemsSource="{Binding LeasesList}" Name="listBox" Width="221"/>
-        <ListBox ItemsSource="{Binding ReservationList}" x:Name="listBox1" Width="192" DockPanel.Dock="Right"/>
+        <ListBox SelectedValue="{Binding LeasesSelected}"  ItemsSource="{Binding LeasesList}" Name="listBox" Width="221"/>
+        <ListBox ItemsSource="{Binding ReservedList}" x:Name="listBox1" Width="192" DockPanel.Dock="Right"/>
     </DockPanel>
 
 </Window>

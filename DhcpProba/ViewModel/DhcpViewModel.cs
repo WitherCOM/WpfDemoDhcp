@@ -2,26 +2,44 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Timers;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace DhcpProba.ViewModel
 {
     class DhcpViewModel : ViewModelBase
     {
+        #region Events
         public event EventHandler<ClientPopupEventArg> OnPopUpOpen;
 
+        #endregion
         private Model.Dhcp _model;
+        private DispatcherTimer _timer;
+        #region DataBindings
+        private int _leasesselected;
+        public int LeasesSelected
+        {
+            get
+            {
+                return _leasesselected;
+            }
+            set
+            {
+                _leasesselected = value;
+                OnPropertyChanged();
+            }
+        }
+        
 
         private ObservableCollection<String> _leaseslist;
         private ObservableCollection<String> _reservedlist;
-
-        public DelegateCommand Kliensuzenet { get; private set; }
-
         public ObservableCollection<String> LeasesList
         {
             get
             {
-                if(_leaseslist == null)
+                if (_leaseslist == null)
                 {
                     _leaseslist = new ObservableCollection<String>();
                 }
@@ -40,13 +58,51 @@ namespace DhcpProba.ViewModel
             }
         }
 
+        #endregion
+        #region DelegateCommands
+        public DelegateCommand Kliensuzenet { get; private set; }
+        public DelegateCommand Foglalas { get; private set; }
+        public DelegateCommand FoglalasTorles { get; private set; }
+        #endregion
+
+
+
         public DhcpViewModel(Model.Dhcp model)
         {
             _model = model;
             Kliensuzenet = new DelegateCommand((param) =>
             {
                 RaiseOpenClientNamePopup();
+                
             });
+            Foglalas = new DelegateCommand((param) =>
+            {
+                model.AddReservation(_leasesselected);
+               
+            });
+            FoglalasTorles = new DelegateCommand((param) =>
+            {
+                model.ClearReservation();
+
+            });
+
+            model.OnLeasesFull += Model_OnLeasesFull;
+            model.OnListUpdated += UpdateLists;
+
+            _timer = new DispatcherTimer();
+            _timer.Interval = new TimeSpan(0,0,1);
+            _timer.Tick += _timer_Tick;
+            _timer.Start();
+        }
+
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            _model.RemoveLeasesElement();
+        }
+
+        private void Model_OnLeasesFull(object sender, EventArgs e)
+        {
+            MessageBox.Show("Leases List is Full");
         }
 
         public void RaiseOpenClientNamePopup()
@@ -58,17 +114,18 @@ namespace DhcpProba.ViewModel
         {
             _model.RequestNewIP(Int64.Parse(arg.Message, System.Globalization.NumberStyles.HexNumber));
         }
-        private void UpdateLists()
+        private void UpdateLists(object sender,EventArgs args)
         {
-            _leaseslist.Clear();
-            _reservedlist.Clear();
+            
+            LeasesList.Clear();
+            ReservedList.Clear();
             foreach(DhcpProba.Model.Dhcp.leaseElement e in _model.LeasesList)
             {
-                _leaseslist.Add(e.MAC + " " + e.IP + " " + e.LejaratiIdo);
+                LeasesList.Add("MAC:" +e.MAC + " Ip:" + e.IP.GetString() + " Lejarat:" + e.LejaratiIdo) ; ;
             }
             foreach (DhcpProba.Model.Dhcp.resElement e in _model.ReservationList)
             {
-                _reservedlist.Add(e.MAC + " " + e.IP);
+                ReservedList.Add("MAC:" + e.MAC + " Ip:" + e.IP.GetString());
             }
         }
         

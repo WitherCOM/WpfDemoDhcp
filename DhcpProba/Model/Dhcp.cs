@@ -2,13 +2,16 @@
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text;
+using System.Timers;
+using System.Windows.Threading;
 
 namespace DhcpProba.Model
 {
     class Dhcp
     {
         private int berletiido;
-
+        public event EventHandler<EventArgs> OnLeasesFull;
+        public event EventHandler<EventArgs> OnListUpdated;
         public class Ip
         {
             public int a { get; set; }
@@ -30,6 +33,11 @@ namespace DhcpProba.Model
                 b = Int32.Parse(i[1]);
                 c = Int32.Parse(i[2]);
                 d = Int32.Parse(i[3]);
+            }
+            
+            public string GetString()
+            {
+                return a.ToString() + "." + b.ToString() + "." + c.ToString() + "." + d.ToString();
             }
         }
         public class leaseElement
@@ -136,7 +144,12 @@ namespace DhcpProba.Model
 
         public void RequestNewIP(Int64 mac)
         {
-            if (_leases.Count >= 245) return;
+            if (_leases.Count >= 245)
+            {
+                RaiseOnLeasesFull();
+                return;
+            }
+            
             foreach(resElement e in _reservations)
             {
                 if(e.MAC == mac)
@@ -148,7 +161,7 @@ namespace DhcpProba.Model
                             canAdd = true;
                     }
                     if (!canAdd) break;
-                    _leases.Add(new leaseElement(e.MAC,e.IP,berletiido));
+                    _leases.Add(new leaseElement(e.MAC,e.IP, DateTime.Now.Second + DateTime.Now.Minute * 60 + DateTime.Now.Hour * 3600 + berletiido));
                     break;
                 }
             }
@@ -162,13 +175,64 @@ namespace DhcpProba.Model
                         canAdd = false;
                     }
                 }
-                if(canAdd) _leases.Add(new leaseElement(mac, new Ip(21, 1, 7, i), berletiido));
+                if (canAdd)
+                {
+                    _leases.Add(new leaseElement(mac, new Ip(21, 1, 7, i), DateTime.Now.Second + DateTime.Now.Minute*60 + DateTime.Now.Hour*3600 + berletiido));
+                    break;
+                }
             }
+
+            RaiseOnListUpdated();
+        }
+
+        public void AddReservation(int selection)
+        {
+            if (selection == -1) return;
+            _reservations.Add(new resElement(_leases[selection].MAC, _leases[selection].IP));
+            RaiseOnListUpdated();
+        }
+
+        public void ClearReservation()
+        {
+            _reservations.Clear();
+            RaiseOnListUpdated();
+        }
+
+        public void RemoveLeasesElement()
+        {
+            int now = DateTime.Now.Second + DateTime.Now.Minute * 60 + DateTime.Now.Hour * 3600;
+            if (_leases.Count == 0) return;
+            foreach (leaseElement l in _leases)
+            {
+                if (l.LejaratiIdo <= now)
+                {
+                    _leases.Remove(l);
+                    break;
+                }
+            }
+            RaiseOnListUpdated();
         }
 
         public Dhcp()
         {
+            berletiido = 10;
+            _leases = new List<leaseElement>();
+            _reservations = new List<resElement>();          
+        }
 
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            
+        }
+
+        private void RaiseOnLeasesFull()
+        {
+            OnLeasesFull?.Invoke(this, new EventArgs());
+        }
+
+        private void RaiseOnListUpdated()
+        {
+            OnListUpdated?.Invoke(this, new EventArgs());
         }
     }
 }
