@@ -12,8 +12,8 @@
             <MenuItem Command ="{Binding Foglalas}" Header="Foglalás hozzáadása"/>
             <MenuItem Command ="{Binding FoglalasTorles}" Header="Foglalások törlése"/>
             <MenuItem Command ="{Binding Beallitas}" Header="Beállítások"/>
-            <MenuItem Header="Mentés"/>
-            <MenuItem Header="Visszaállítása"/>
+            <MenuItem Command ="{Binding Save}" Header="Mentés"/>
+            <MenuItem Command ="{Binding Load}" Header="Visszaállítása"/>
         </Menu>
         <ListBox SelectedValue="{Binding LeasesSelected}"  ItemsSource="{Binding LeasesList}" Name="listBox" Width="221"/>
         <ListBox ItemsSource="{Binding ReservedList}" x:Name="listBox1" Width="192" DockPanel.Dock="Right"/>

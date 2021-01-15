@@ -64,6 +64,8 @@ namespace DhcpProba.ViewModel
         public DelegateCommand Foglalas { get; private set; }
         public DelegateCommand FoglalasTorles { get; private set; }
         public DelegateCommand Beallitas { get; private set; }
+        public DelegateCommand Load { get; private set; }
+        public DelegateCommand Save { get; private set; }
         #endregion
 
 
@@ -90,7 +92,14 @@ namespace DhcpProba.ViewModel
             {
                 RaiseOpenBeallitasokPopup();
             });
-
+            Save = new DelegateCommand((param) =>
+            {
+                _model.Save();
+            });
+            Load = new DelegateCommand((param) =>
+            {
+                _model.Load();
+            });
             model.OnLeasesFull += Model_OnLeasesFull;
             model.OnListUpdated += UpdateLists;
 
@@ -135,7 +144,7 @@ namespace DhcpProba.ViewModel
             ReservedList.Clear();
             foreach(DhcpProba.Model.Dhcp.leaseElement e in _model.LeasesList)
             {
-                LeasesList.Add("MAC:" +e.MAC + " Ip:" + e.IP.GetString() + " Lejarat:" + e.LejaratiIdo) ; ;
+                LeasesList.Add("MAC:" +Convert.ToString(e.MAC,16) + " Ip:" + e.IP.GetString() + " Lejarat:" + e.LejaratiIdo + "s");
             }
             foreach (DhcpProba.Model.Dhcp.resElement e in _model.ReservationList)
             {

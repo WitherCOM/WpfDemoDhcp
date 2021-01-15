@@ -8,10 +8,14 @@ using System.Windows.Threading;
 namespace DhcpProba.Model
 {
     class Dhcp
-    {
-        private int berletiido;
+    {       
+
+        #region Events
         public event EventHandler<EventArgs> OnLeasesFull;
         public event EventHandler<EventArgs> OnListUpdated;
+        #endregion
+
+        #region InnerClasses
         public class Ip
         {
             public int a { get; set; }
@@ -122,9 +126,15 @@ namespace DhcpProba.Model
                 _ip = ip;
             }
         }
+        #endregion
+
         private List<resElement> _reservations;
 
         private List<leaseElement> _leases;
+
+        private int berletiido;
+
+        private Persistance.Persistance _persistance;
 
         public List<resElement> ReservationList
         {
@@ -157,7 +167,7 @@ namespace DhcpProba.Model
                     bool canAdd = false;
                     foreach(leaseElement e2 in _leases)
                     {
-                        if (e2.IP == e.IP)
+                        if (e2.IP.GetString() == e.IP.GetString())
                             canAdd = true;
                     }
                     if (!canAdd) break;
@@ -170,7 +180,7 @@ namespace DhcpProba.Model
                 bool canAdd = true;
                 foreach (leaseElement e2 in _leases)
                 {
-                    if (e2.IP == new Ip(21,1,7,i))
+                    if (e2.IP.GetString() == (new Ip(21,1,7,i)).GetString())
                     {
                         canAdd = false;
                     }
@@ -218,16 +228,29 @@ namespace DhcpProba.Model
             RaiseOnListUpdated();
         }
 
+        public void Save()
+        {
+            _persistance.Save(_leases, _reservations);
+        }
+
+        public void Load()
+        {
+            _persistance.Load();
+        }
         public Dhcp()
         {
             berletiido = 10;
+            _persistance = new Persistance.Persistance();
+            _persistance.OnLoad += _persistance_OnLoad;
             _leases = new List<leaseElement>();
             _reservations = new List<resElement>();          
         }
 
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void _persistance_OnLoad(object sender, Persistance.PersistanceEventArgs e)
         {
-            
+            _reservations = e.Reserv;
+            _leases = e.Leases;
+            RaiseOnListUpdated();
         }
 
         private void RaiseOnLeasesFull()
